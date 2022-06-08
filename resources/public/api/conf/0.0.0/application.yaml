@@ -1,0 +1,161 @@
+openapi: "3.0.3"
+
+info:
+  version: 0.0.0
+  title: HMRC Assist For Self Assessment
+  description: |
+    # Overview
+    This is the HMRC Assist API for Self Assessment.
+
+servers:
+  - url: http://localhost:8242
+    description: Local
+
+components:
+  schemas:
+    Report:
+      type: object
+      description: Report containing zero or more messages.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique ID (UUID) of the report.
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    Message:
+      type: object
+      description: A message, which might be a warning or an opportunity.
+      properties:
+        body:
+          type: string
+          description: The main content.
+        action:
+          type: string
+          description: A recommended action.
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    Link:
+      description: A link, for further assistance.
+      properties:
+        title:
+          type: string
+          description: The text to be used for the link.
+        url:
+          type: string
+          description: The URL of the link.
+  parameters:
+    acceptHeader:
+      name: Accept
+      in: header
+      schema:
+        type: string
+        enum: [
+            "application/vnd.hmrc.1.0+json"
+        ]
+      required: true
+  responses:
+    CannotDetermineTaxPayer:
+      description: We cannot determine the current taxpayer.
+    BadRequestForGeneration:
+      description: The request for report generation is invalid.
+paths:
+  /reports:
+    post:
+      summary: Generate a report.
+      description: |
+        Generate a report for a taxpayer and tax year.
+      operationId: generateReport
+      tags:
+        - reports
+      parameters:
+        - $ref: '#/components/parameters/acceptHeader'
+      requestBody:
+        description: A package of the params required for a report generation.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: The params required for a report generation.
+              properties:
+                calculationId:
+                  type: string
+                  format: uuid
+                  description: The ID (UUID) of a calculation.
+                customerType:
+                  type: string
+                  description: The type of customer.
+                  enum:
+                    - TaxPayer
+                    - Agent
+                taxYear:
+                  type: integer
+                  description: The tax year of the Self Assessment.
+              required:
+                - calculationId
+                - customerType
+                - taxYear
+              example:
+                calculationId: a85b059d-6b03-47d4-be97-60569925fbc9
+                customerType: TaxPayer
+                taxYear: 2000
+      responses:
+        200:
+          description: Successful return of a new report.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+              example:
+                {
+                  "id": "98456623-fb25-44ef-a283-9d62c298a80a",
+                  "messages": [
+                    {
+                      "body": "Your cost of sales (12000) is greater than your actual income (4000). This may be an error.",
+                      "action": "Please read our guidance and consider amending Box 10 of your submission.",
+                      "links": [
+                        {
+                          "title": "Our guidance on Turnover and Expenses can be read here.",
+                          "url": "https://www.gov.uk/expenses-if-youre-self-employed"
+                        }
+                      ]
+                    },
+                    {
+                      "body": "It is abnormal for allowable expense claims to be round sums.",
+                      "action": "Please review your expenses claim, use your software to enter and retain receipts, send us amended claims.",
+                      "links": [
+                        {
+                          "title": "Our guidance on Turnover and Expenses can be read here.",
+                          "url": "https://www.gov.uk/expenses-if-youre-self-employed"
+                        }
+                      ]
+                    }
+                  ]
+                }
+        400:
+          $ref: '#/components/responses/BadRequestForGeneration'
+        401:
+          $ref: '#/components/responses/CannotDetermineTaxPayer'
+  /reports/{reportId}/acknowledgements:
+    post:
+      summary: Acknowledge the specified report.
+      description: Acknowledge that the specified report has been read by either the taxpayer or agent. Is idempotent.
+      operationId: AcknowledgeReport
+      tags:
+        - reports
+      parameters:
+        - name: reportId
+          in: path
+          description: The unique report ID (UUID)
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: No content.

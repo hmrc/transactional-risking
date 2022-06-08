@@ -1,0 +1,1 @@
+GET        /conf/:version/*file        uk.gov.hmrc.transactionalrisking.controllers.DocumentationController.specification(version, file)
