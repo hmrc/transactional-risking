@@ -94,8 +94,9 @@ paths:
                     - TaxPayer
                     - Agent
                 taxYear:
-                  type: integer
-                  description: The tax year of the Self Assessment.
+                  type: string
+                  example: 2021-22
+                  description: The tax year of the Self Assessment; format is YYYY-YY.
               required:
                 - calculationId
                 - customerType
@@ -103,7 +104,7 @@ paths:
               example:
                 calculationId: a85b059d-6b03-47d4-be97-60569925fbc9
                 customerType: TaxPayer
-                taxYear: 2000
+                taxYear: 2021-22
       responses:
         200:
           description: Successful return of a new report.
