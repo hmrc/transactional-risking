@@ -93,6 +93,9 @@ paths:
                   enum:
                     - TaxPayer
                     - Agent
+                nino:
+                  type: string
+                  description: The NINO of the relevant tax payer.
                 taxYear:
                   type: string
                   example: 2021-22
@@ -100,10 +103,12 @@ paths:
               required:
                 - calculationId
                 - customerType
+                - nino
                 - taxYear
               example:
                 calculationId: a85b059d-6b03-47d4-be97-60569925fbc9
                 customerType: TaxPayer
+                nino: QQ 12 34 56 A
                 taxYear: 2021-22
       responses:
         200:
