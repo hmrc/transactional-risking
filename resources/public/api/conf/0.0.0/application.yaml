@@ -64,52 +64,31 @@ components:
     BadRequestForGeneration:
       description: The request for report generation is invalid.
 paths:
-  /reports:
+  /reports/{nino}/{calculationId}:
     post:
       summary: Generate a report.
       description: |
-        Generate a report for a taxpayer and tax year.
+        Generate a report for the previous tax calculation and taxpayer.
       operationId: generateReport
       tags:
         - reports
       parameters:
         - $ref: '#/components/parameters/acceptHeader'
-      requestBody:
-        description: A package of the params required for a report generation.
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              description: The params required for a report generation.
-              properties:
-                calculationId:
-                  type: string
-                  format: uuid
-                  description: The ID (UUID) of a calculation.
-                customerType:
-                  type: string
-                  description: The type of customer.
-                  enum:
-                    - TaxPayer
-                    - Agent
-                nino:
-                  type: string
-                  description: The NINO of the relevant tax payer.
-                taxYear:
-                  type: string
-                  example: 2021-22
-                  description: The tax year of the Self Assessment; format is YYYY-YY.
-              required:
-                - calculationId
-                - customerType
-                - nino
-                - taxYear
-              example:
-                calculationId: a85b059d-6b03-47d4-be97-60569925fbc9
-                customerType: TaxPayer
-                nino: QQ 12 34 56 A
-                taxYear: 2021-22
+        - name: nino
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The NINO of the relevant tax payer. Note that the tax year will be derived from the calculation.
+          example: QQ123456A
+        - name: calculationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The ID (UUID) of a calculation.
+          example: a85b059d-6b03-47d4-be97-60569925fbc9
       responses:
         200:
           description: Successful return of a new report.
