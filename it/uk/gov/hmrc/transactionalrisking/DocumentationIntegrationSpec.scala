@@ -45,7 +45,7 @@ class DocumentationIntegrationSpec
 
   "a request for an OpenAPI Spec" should {
     "respond with a 200 status" when {
-      val knownVersions = Seq("0.0.0")
+      val knownVersions = Seq("1.0")
       forAll(knownVersions) { knownVersion: String =>
         "the version is known" in {
           val response =
