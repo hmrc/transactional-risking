@@ -1,39 +1,13 @@
 {
-  "recordId": "f2fb30e5-4ab6-4a29-b3c1-c7264259ff1c",
-  "value": [
+  "reportId": "f2fb30e5-4ab6-4a29-b3c1-c7264259ff1c",
+  "data": [
     {
-      "metadata": [
-        {
-          "TITLE": "string"
-        },
-        {
-          "MESSAGE": "string"
-        },
-        {
-          "ACTION": "string"
-        },
-        {
-          "LINKTITLE": "string"
-        },
-        {
-          "LINKSURL": "string"
-        },
-        {
-          "TYPE_ID": "string"
-        }
-      ]
-    },
-    {
-      "data": [
-        [
-          "Turnover and Cost of Sales",
-          "Your cost of sales (12000) is greater than your actual income (4000). This may be an error.",
-          "Please read our guidance and consider amending Box 10 of your submission.",
-          "Our guidance on Turnover and Expenses can be read here.",
-          "https://www.gov.uk/expenses-if-youre-self-employed",
-          "001"
-        ]
-      ]
+      "title": "Turnover and Cost of Sales",
+      "message": "Your cost of sales (12000) is greater than your actual income (4000). This may be an error.",
+      "action": "Please read our guidance and consider amending Box 10 of your submission.",
+      "linkTitle": "Our guidance on Turnover and Expenses can be read here.",
+      "linksurl": "https://www.gov.uk/expenses-if-youre-self-employed",
+      "typeId": "001"
     }
   ]
 }
