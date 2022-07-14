@@ -9,21 +9,8 @@ is:
 displayName: Acknowledge report
 description: This endpoint allows you acknowledge that the report has received and read or processed in some way.
 #(annotations.sandboxData): !include ../../scenarios/selfAssessment/retrieveIncomeTaxAndNics.md
-(annotations.scope): "	write:hmrc-self-assessment-assist"
+(annotations.scope): "write:hmrc-self-assessment-assist"
 securedBy: [ sec.oauth_2_0: { scopes: [ "write:hmrc-self-assessment-assist" ] } ]
 responses:
-  200:
-
-
-# 200:
-#   body:
-#     application/json:
-#       type: !include ../../schemas/selfAssessmec/retrieve_incomeTaxAndNics_response.json
-#       examples:
-#         example-1:
-#            description: Example calculation response.
-#            value: !include ../../examples/acknowledge/confirmReportProcessed.json
-#   headers:
-#      X-CorrelationId:
-#        example: c75f40a6-a3df-4429-a697-471eeec46435
-#        description: Unique ID for operation tracking <br> String, 36 characters.
+  204:
+  500:
