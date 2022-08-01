@@ -1,3 +1,4 @@
 # microservice specific routes
 
 GET        /hello             uk.gov.hmrc.transactionalrisking.controllers.HelloWorldController.hello
+POST       /assessments       uk.gov.hmrc.transactionalrisking.controllers.RiskDecisionController.generateAssessment
